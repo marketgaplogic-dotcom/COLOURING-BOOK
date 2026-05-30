@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KDP Coloring Book Market Intelligence Report</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+:root{
+  --cream:#FAF8F3;--warm:#FFFEFB;--sand:#F2EDE3;--sand-d:#E8E0D0;
+  --sage:#8FAF8A;--sage-l:#D4E5D1;--sage-dk:#4A7A44;
+  --terra:#C4714A;--terra-l:#F0D5C5;--terra-p:#FBF0EA;
+  --ink:#1C1A17;--ink-s:#3D3A34;--ink-m:#6B6459;--ink-f:#9C9589;
+  --gold:#B8973A;--gold-l:#F0E4BE;
+  --sky:#A8C4D4;--sky-l:#E4EFF5;
+  --gap:#E8F4EC;--gap-dk:#2E6B42;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--cream);color:var(--ink);font-family:'DM Sans',sans-serif;font-size:14.5px;line-height:1.7}
+
+/* NAV */
+.nav{background:var(--warm);border-bottom:1px solid var(--sand-d);padding:0 40px;position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between;height:56px}
+.nav-logo{font-family:'Playfair Display',serif;font-size:16px;font-weight:600;color:var(--ink);letter-spacing:-0.02em}
+.nav-logo span{color:var(--terra)}
+.nav-links{display:flex;gap:2px}
+.nav-links a{font-size:11.5px;font-weight:500;text-decoration:none;color:var(--ink-m);padding:5px 11px;border-radius:20px;transition:all .18s;letter-spacing:.01em}
+.nav-links a:hover{background:var(--sand);color:var(--ink)}
+
+/* HERO */
+.hero{background:var(--warm);border-bottom:1px solid var(--sand-d);padding:64px 40px 52px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-40px;right:-40px;width:360px;height:360px;border-radius:50%;background:radial-gradient(circle,#F0E4BE44 0%,transparent 70%);pointer-events:none}
+.hero-eye{display:inline-flex;align-items:center;gap:8px;font-size:11px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--terra);margin-bottom:16px}
+.hero-eye::before{content:'';display:inline-block;width:20px;height:1px;background:var(--terra)}
+.hero h1{font-family:'Playfair Display',serif;font-size:clamp(32px,4.5vw,52px);font-weight:700;line-height:1.1;letter-spacing:-.03em;max-width:640px;margin-bottom:20px}
+.hero h1 em{font-style:italic;color:var(--terra)}
+.hero-meta{display:flex;flex-wrap:wrap;gap:20px;align-items:center}
+.hero-meta-i{font-size:12.5px;color:var(--ink-m)}
+.hero-meta-i strong{color:var(--ink-s);font-weight:500}
+.meta-dot{width:3px;height:3px;border-radius:50%;background:var(--sand-d)}
+
+/* STATS */
+.statbar{background:var(--sand);border-bottom:1px solid var(--sand-d);padding:24px 40px;display:flex;gap:0;overflow-x:auto}
+.stat-i{flex:1;min-width:100px;padding-right:28px;border-right:1px solid var(--sand-d);margin-right:28px}
+.stat-i:last-child{border-right:none;margin-right:0}
+.sv{font-family:'Playfair Display',serif;font-size:28px;font-weight:700;color:var(--ink);letter-spacing:-.03em;line-height:1;margin-bottom:3px}
+.sv.ac{color:var(--terra)}
+.sl{font-size:10.5px;font-weight:500;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-f)}
+
+/* SECTION WRAPPER */
+.sec{padding:60px 0;border-bottom:1px solid var(--sand-d)}
+.sec:last-of-type{border-bottom:none}
+.wrap{max-width:1060px;margin:0 auto;padding:0 40px}
+
+/* SECTION HEADER */
+.sec-lbl{display:flex;align-items:center;gap:10px;margin-bottom:6px}
+.sec-num{font-size:10.5px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-f)}
+.sec-line{flex:none;width:32px;height:1px;background:var(--sand-d)}
+.sec-tag{font-size:10px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;padding:3px 9px;border-radius:20px;background:var(--terra-p);color:var(--terra)}
+.sec h2{font-family:'Playfair Display',serif;font-size:clamp(22px,2.8vw,30px);font-weight:600;letter-spacing:-.02em;color:var(--ink);margin-bottom:8px;line-height:1.2}
+.sec-intro{font-size:13.5px;color:var(--ink-m);max-width:620px;line-height:1.65;margin-bottom:32px}
+.divider{width:40px;height:2px;background:var(--terra);margin:10px 0 28px}
+
+/* ── TOP 10 TABLE ── */
+.t10{width:100%;border-collapse:collapse;font-size:13px;margin-bottom:16px}
+.t10 thead tr{border-bottom:2px solid var(--ink)}
+.t10 thead th{font-size:10.5px;font-weight:500;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-m);padding:9px 10px 9px 0;text-align:left}
+.t10 thead th:first-child{width:34px;text-align:center;padding-left:0}
+.t10 thead th.r{text-align:right}
+.t10 tbody tr{border-bottom:1px solid var(--sand-d);transition:background .13s}
+.t10 tbody tr:hover{background:var(--warm)}
+.t10 td{padding:11px 10px 11px 0;vertical-align:middle;color:var(--ink-s)}
+.t10 td.rc{text-align:center;padding-left:0;padding-right:10px}
+.rb{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:50%;font-size:11.5px;font-weight:500}
+.rb1{background:var(--gold-l);color:var(--gold)}
+.rb2{background:var(--sand-d);color:var(--ink-m)}
+.rb3{background:var(--terra-l);color:var(--terra)}
+.rbr{background:var(--sand);color:var(--ink-f)}
+.tm{font-size:13px;color:var(--ink);line-height:1.35}
+.bsbadge{display:inline-block;font-size:9.5px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;padding:2px 7px;border-radius:20px;background:var(--gold-l);color:var(--gold);margin-left:5px;vertical-align:middle}
+.td-r{text-align:right;font-weight:500}
+.rnum{font-family:'Playfair Display',serif;font-size:14px;font-weight:600;color:var(--ink)}
+.pnum{font-family:'Playfair Display',serif;font-size:14px;color:var(--sage-dk)}
+.hl-row{background:var(--terra-p)}
+
+/* ── CHARTS ── */
+.charts-g{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:32px}
+.cc{background:var(--warm);border:1px solid var(--sand-d);border-radius:10px;padding:20px 20px 16px}
+.cc.wide{grid-column:1/-1}
+.ct{font-family:'Playfair Display',serif;font-size:15px;font-weight:600;color:var(--ink);margin-bottom:2px}
+.cs{font-size:11.5px;color:var(--ink-f);margin-bottom:16px}
+.cw{position:relative;width:100%;height:200px}
+.cw.tall{height:280px}
+
+/* ── FACTORS ── */
+.fgrid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:32px}
+.fc{background:var(--warm);border:1px solid var(--sand-d);border-radius:10px;padding:20px 18px;position:relative;overflow:hidden;transition:box-shadow .18s}
+.fc:hover{box-shadow:0 3px 16px rgba(0,0,0,.06)}
+.fc::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
+.fc.f1::before{background:var(--terra)}
+.fc.f2::before{background:var(--sage)}
+.fc.f3::before{background:var(--gold)}
+.fc.f4::before{background:var(--sky)}
+.fc.f5::before{background:#E8C4BB}
+.fc.f6::before{background:var(--sage-dk)}
+.fn{font-size:10px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-f);margin-bottom:6px}
+.fstat{font-family:'Playfair Display',serif;font-size:24px;font-weight:700;color:var(--terra);margin-bottom:3px;line-height:1}
+.ftitle{font-family:'Playfair Display',serif;font-size:14px;font-weight:600;color:var(--ink);margin-bottom:8px;line-height:1.3}
+.fbody{font-size:12.5px;color:var(--ink-m);line-height:1.6}
+.fbullets{list-style:none;margin-top:6px}
+.fbullets li{font-size:12px;color:var(--ink-m);padding:2px 0;display:flex;align-items:flex-start;gap:6px;line-height:1.5}
+.fbullets li::before{content:'—';color:var(--terra);flex-shrink:0;font-size:11px;margin-top:1px}
+
+/* ── TREND SPLIT ── */
+.tsplit{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--sand-d);border-radius:10px;overflow:hidden;margin-bottom:32px}
+.tc{padding:28px 28px}
+.tc.then{background:var(--sand);border-right:1px solid var(--sand-d)}
+.tc.now{background:var(--warm)}
+.tera{font-size:10px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;margin-bottom:8px}
+.then .tera{color:var(--ink-f)} .now .tera{color:var(--terra)}
+.thead2{font-family:'Playfair Display',serif;font-size:18px;font-weight:600;color:var(--ink);margin-bottom:16px;line-height:1.3}
+.tlist{list-style:none}
+.tlist li{font-size:12.5px;color:var(--ink-s);padding:5px 0;border-bottom:1px solid var(--sand-d);display:flex;align-items:flex-start;gap:8px;line-height:1.45}
+.tlist li:last-child{border-bottom:none}
+.tlist li::before{content:'';display:inline-block;width:5px;height:5px;border-radius:50%;margin-top:5px;flex-shrink:0}
+.then .tlist li::before{background:var(--ink-f)}
+.now .tlist li::before{background:var(--terra)}
+
+/* ── KW BARS ── */
+.kw-bars{margin-bottom:32px}
+.kw-row{display:flex;align-items:center;gap:10px;padding:4px 0}
+.kw-lbl{font-size:11.5px;color:var(--ink-s);width:100px;flex-shrink:0;text-align:right}
+.kw-bw{flex:1;background:var(--sand);border-radius:3px;height:18px;overflow:hidden}
+.kw-b{height:100%;border-radius:3px;background:var(--terra-l);transition:width 1.2s cubic-bezier(.16,1,.3,1)}
+.kw-b.hl{background:var(--terra)}
+.kw-cnt{font-size:11px;font-weight:500;color:var(--ink-m);width:30px;flex-shrink:0;text-align:right}
+
+/* ── MARKET GAP LOGIC ── */
+.gap-hero{background:linear-gradient(135deg,var(--gap) 0%,#F0F9F4 100%);border:1px solid #C8E6D4;border-radius:12px;padding:32px 32px 28px;margin-bottom:28px}
+.gap-tag{font-size:10px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--gap-dk);margin-bottom:10px}
+.gap-title{font-family:'Playfair Display',serif;font-size:22px;font-weight:600;color:var(--gap-dk);margin-bottom:12px;line-height:1.25}
+.gap-desc{font-size:13px;color:#3D5A46;max-width:680px;line-height:1.65;margin-bottom:20px}
+.gap-formula{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.gap-pill{background:var(--warm);border:1px solid #C8E6D4;border-radius:8px;padding:10px 16px;text-align:center}
+.gap-pill-val{font-family:'Playfair Display',serif;font-size:18px;font-weight:600;color:var(--gap-dk);line-height:1}
+.gap-pill-lbl{font-size:10px;font-weight:500;text-transform:uppercase;letter-spacing:.07em;color:#5A8A6A;margin-top:2px}
+.gap-op{font-size:20px;color:#5A8A6A;font-weight:300}
+.gap-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-bottom:28px}
+.gap-card{background:var(--warm);border:1px solid var(--sand-d);border-radius:10px;padding:18px 16px;border-top:3px solid var(--sage)}
+.gap-card-t{font-size:12px;font-weight:500;color:var(--ink);margin-bottom:6px}
+.gap-card-b{font-size:11.5px;color:var(--ink-m);line-height:1.55}
+.gap-card-stat{font-family:'Playfair Display',serif;font-size:20px;font-weight:600;color:var(--sage-dk);margin-bottom:2px}
+
+/* ── NICHES ── */
+.niches-l{display:flex;flex-direction:column;gap:18px;margin-bottom:32px}
+.ncard{background:var(--warm);border:1px solid var(--sand-d);border-radius:10px;overflow:hidden;transition:box-shadow .18s}
+.ncard:hover{box-shadow:0 3px 16px rgba(0,0,0,.06)}
+.nhead{display:flex;align-items:flex-start;justify-content:space-between;padding:18px 22px 14px;border-bottom:1px solid var(--sand-d)}
+.nnb{font-size:10px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-f);margin-bottom:3px}
+.nname{font-family:'Playfair Display',serif;font-size:16px;font-weight:600;color:var(--ink);line-height:1.25}
+.opp{font-size:9.5px;font-weight:500;letter-spacing:.07em;text-transform:uppercase;padding:3px 10px;border-radius:20px;flex-shrink:0;margin-left:12px;margin-top:3px}
+.opp-v{background:var(--terra-l);color:var(--terra)}
+.opp-h{background:var(--sage-l);color:var(--sage-dk)}
+.opp-m{background:var(--sky-l);color:#3A6E8A}
+.nbody{display:grid;grid-template-columns:1.1fr 1fr 1fr;gap:0}
+.nsec{padding:16px 18px;border-right:1px solid var(--sand-d)}
+.nsec:last-child{border-right:none}
+.nsl{font-size:9.5px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-f);margin-bottom:8px}
+.nbul{list-style:none}
+.nbul li{font-size:12px;color:var(--ink-s);padding:2px 0;display:flex;align-items:flex-start;gap:6px;line-height:1.45}
+.nbul li::before{content:'—';color:var(--terra);flex-shrink:0;font-size:10px;margin-top:2px}
+/* keyword chips inside niche */
+.kw-chips-sec{padding:16px 18px}
+.kwchip{font-size:11px;color:var(--ink-s);padding:4px 10px;background:var(--sand);border-radius:6px;margin-bottom:4px;line-height:1.4;display:block}
+
+/* ── MISTAKES ── */
+.merr-l{display:flex;flex-direction:column;gap:14px;margin-bottom:32px}
+.merr{display:flex;gap:16px;align-items:flex-start;background:var(--warm);border:1px solid var(--sand-d);border-left:4px solid var(--terra);border-radius:0 10px 10px 0;padding:20px 20px}
+.mn{font-family:'Playfair Display',serif;font-size:26px;font-weight:700;color:var(--terra-l);line-height:1;flex-shrink:0;width:28px}
+.mc .mt{font-family:'Playfair Display',serif;font-size:15px;font-weight:600;color:var(--ink);margin-bottom:6px;line-height:1.3}
+.mc .mbul{list-style:none;margin-top:4px}
+.mc .mbul li{font-size:12.5px;color:var(--ink-m);padding:2px 0;display:flex;align-items:flex-start;gap:6px;line-height:1.5}
+.mc .mbul li::before{content:'—';color:var(--terra);flex-shrink:0;font-size:10px;margin-top:2px}
+.mdata{display:inline-block;font-size:11px;font-weight:500;background:var(--terra-p);color:var(--terra);padding:2px 8px;border-radius:4px;margin-top:6px}
+
+/* ── 3-DAY LAUNCH ── */
+.launch-g{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:28px}
+.lday{background:var(--warm);border:1px solid var(--sand-d);border-radius:10px;overflow:hidden}
+.lday-h{padding:16px 18px;border-bottom:1px solid var(--sand-d)}
+.lday-num{font-size:10px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-f);margin-bottom:4px}
+.lday-title{font-family:'Playfair Display',serif;font-size:15px;font-weight:600;color:var(--ink);line-height:1.25}
+.lday-sub{font-size:11.5px;color:var(--ink-m);margin-top:2px}
+.lday-body{padding:14px 16px}
+.ltask{display:flex;align-items:flex-start;gap:10px;padding:6px 0;border-bottom:1px solid var(--sand-d)}
+.ltask:last-child{border-bottom:none}
+.ltick{width:16px;height:16px;border-radius:4px;border:1.5px solid;flex-shrink:0;margin-top:2px}
+.lday.d1 .ltick{border-color:var(--terra)}
+.lday.d2 .ltick{border-color:var(--sage-dk)}
+.lday.d3 .ltick{border-color:var(--gold)}
+.lday.d1 .lday-h{background:var(--terra-p)}
+.lday.d2 .lday-h{background:var(--sage-l)}
+.lday.d3 .lday-h{background:var(--gold-l)}
+.lday.d1 .lday-num{color:var(--terra)}
+.lday.d2 .lday-num{color:var(--sage-dk)}
+.lday.d3 .lday-num{color:var(--gold)}
+.ltask-t{font-size:12px;color:var(--ink-s);line-height:1.45}
+
+/* FOOTER */
+.foot{background:var(--sand);border-top:1px solid var(--sand-d);padding:32px 40px;display:flex;align-items:center;justify-content:space-between}
+.foot-brand{font-family:'Playfair Display',serif;font-size:14px;font-weight:600;color:var(--ink)}
+.foot-brand span{color:var(--terra)}
+.foot-meta{font-size:11.5px;color:var(--ink-f)}
+
+/* UTILS */
+.fade-up{opacity:0;transform:translateY(18px);transition:opacity .55s ease,transform .55s ease}
+.fade-up.vis{opacity:1;transform:translateY(0)}
+
+/* TWO-COL KW LAYOUT */
+.niche-kw-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:32px}
+.nkw-card{background:var(--warm);border:1px solid var(--sand-d);border-radius:10px;padding:18px 18px 14px}
+.nkw-num{font-size:9.5px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-f);margin-bottom:3px}
+.nkw-name{font-family:'Playfair Display',serif;font-size:13.5px;font-weight:600;color:var(--ink);margin-bottom:12px;line-height:1.3}
+.nkw-list{list-style:none}
+.nkw-list li{font-size:11.5px;color:var(--ink-s);padding:4px 8px;background:var(--sand);border-radius:5px;margin-bottom:4px;line-height:1.4;display:flex;align-items:center;gap:6px}
+.nkw-list li::before{content:'#';color:var(--terra);font-size:10px;font-weight:500;flex-shrink:0}
+
+@media(max-width:900px){
+  .nav{padding:0 20px}.hero,.statbar,.wrap,.foot{padding-left:20px;padding-right:20px}
+  .charts-g,.fgrid,.tsplit,.gap-grid,.launch-g,.niche-kw-grid{grid-template-columns:1fr}
+  .nbody{grid-template-columns:1fr}
+  .nsec{border-right:none;border-bottom:1px solid var(--sand-d)}.nsec:last-child{border-bottom:none}
+  .tc.then{border-right:none;border-bottom:1px solid var(--sand-d)}
+  .nav-links{display:none}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<header class="nav">
+  <div class="nav-logo">KDP<span>.</span>Report</div>
+  <nav class="nav-links">
+    <a href="#s-top10">Top Sellers</a>
+    <a href="#s-comp">Competition</a>
+    <a href="#s-trends">Trends</a>
+    <a href="#s-gap">Market Gap</a>
+    <a href="#s-niches">Niches</a>
+    <a href="#s-kw">Keywords</a>
+    <a href="#s-launch">Launch Plan</a>
+    <a href="#s-mistakes">Mistakes</a>
+  </nav>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-eye">Amazon KDP Market Intelligence</div>
+  <h1>Coloring Book<br>Market <em>Analysis</em></h1>
+  <div class="hero-meta">
+    <div class="hero-meta-i"><strong>425</strong> listings analyzed</div>
+    <div class="meta-dot"></div>
+    <div class="hero-meta-i"><strong>Query:</strong> "self published colouring books"</div>
+    <div class="meta-dot"></div>
+    <div class="hero-meta-i"><strong>May 2026</strong></div>
+  </div>
+</section>
+
+<!-- STAT BAR -->
+<div class="statbar">
+  <div class="stat-i"><div class="sv">425</div><div class="sl">Listings</div></div>
+  <div class="stat-i"><div class="sv ac">$9.99</div><div class="sl">Median Price</div></div>
+  <div class="stat-i"><div class="sv">4.58</div><div class="sl">Avg Rating</div></div>
+  <div class="stat-i"><div class="sv">28.6%</div><div class="sl">Zero Reviews</div></div>
+  <div class="stat-i"><div class="sv">29%</div><div class="sl">In a Series</div></div>
+  <div class="stat-i"><div class="sv ac">2</div><div class="sl">Best Seller Badges</div></div>
+</div>
+
+<!-- TOP 10 -->
+<section class="sec" id="s-top10">
+<div class="wrap">
+  <div class="sec-lbl"><div class="sec-num">Section 01</div><div class="sec-line"></div><div class="sec-tag">Top Sellers</div></div>
+  <h2>Top 10 Best-Selling Coloring Books</h2>
+  <div class="divider"></div>
+  <p class="sec-intro">Ranked by review count. Sponsored listings and duplicates excluded.</p>
+  <div style="overflow-x:auto">
+  <table class="t10 fade-up">
+    <thead><tr><th>Rank</th><th>Title</th><th class="r">Reviews</th><th class="r">Rating</th><th class="r">Price</th></tr></thead>
+    <tbody id="t10body"></tbody>
+  </table>
+  </div>
+  <div class="charts-g" style="margin-top:32px">
+    <div class="cc"><div class="ct">Price Distribution</div><div class="cs">Listing count by price tier</div><div class="cw"><canvas id="priceChart" role="img" aria-label="Price distribution"></canvas></div></div>
+    <div class="cc"><div class="ct">Review Volume Spread</div><div class="cs">How reviews cluster across all listings</div><div class="cw"><canvas id="reviewChart" role="img" aria-label="Review distribution"></canvas></div></div>
+  </div>
+</div>
+</section>
+
+<!-- COMPETITIVE -->
+<section class="sec" id="s-comp">
+<div class="wrap">
+  <div class="sec-lbl"><div class="sec-num">Section 02</div><div class="sec-line"></div><div class="sec-tag">Competitive Analysis</div></div>
+  <h2>Why the Top 10 Are Winning</h2>
+  <div class="divider"></div>
+  <p class="sec-intro">Six structural patterns separate top performers from the 119 zero-review listings.</p>
+  <div class="fgrid fade-up">
+    <div class="fc f1">
+      <div class="fn">Factor 01</div>
+      <div class="fstat">87</div>
+      <div class="ftitle">Bold &amp; Easy is a search term</div>
+      <ul class="fbullets">
+        <li>Appears in 87 titles dataset-wide</li>
+        <li>5 of top 20 sellers use it explicitly</li>
+        <li>Functions as a buyer-facing filter, not a style label</li>
+        <li>Books without a legibility signal are at a structural disadvantage</li>
+      </ul>
+    </div>
+    <div class="fc f2">
+      <div class="fn">Factor 02</div>
+      <div class="fstat">8/10</div>
+      <div class="ftitle">Identity over description</div>
+      <ul class="fbullets">
+        <li>8 of 10 top titles sell a feeling, not a product</li>
+        <li>"Cozy Girl Homebody," "I Am," "Be Fearless"</li>
+        <li>Buyers select a version of themselves</li>
+        <li>Content-describing titles systematically underperform</li>
+      </ul>
+    </div>
+    <div class="fc f3">
+      <div class="fn">Factor 03</div>
+      <div class="fstat">29%</div>
+      <div class="ftitle">Series architecture compounds</div>
+      <ul class="fbullets">
+        <li>125 of 425 products in named series</li>
+        <li>#2 ranked book is part of an 11-book series</li>
+        <li>Amazon auto-cross-promotes within series</li>
+        <li>Review velocity stacks across all titles</li>
+      </ul>
+    </div>
+    <div class="fc f4">
+      <div class="fn">Factor 04</div>
+      <div class="fstat">37</div>
+      <div class="ftitle">Named audience targeting</div>
+      <ul class="fbullets">
+        <li>37 titles target Black Women specifically</li>
+        <li>Rank 7 earns $11.11 above standard price ceiling</li>
+        <li>Specificity creates in-community word of mouth</li>
+        <li>Protects against broad-market competition</li>
+      </ul>
+    </div>
+    <div class="fc f5">
+      <div class="fn">Factor 05</div>
+      <div class="fstat">81</div>
+      <div class="ftitle">Affirmations as content</div>
+      <ul class="fbullets">
+        <li>Affirmation-integrated books in 81 titles</li>
+        <li>Pages deliver self-help alongside coloring</li>
+        <li>Positions the product as dual-purpose</li>
+        <li>Supports higher price points and gifting conversion</li>
+      </ul>
+    </div>
+    <div class="fc f6">
+      <div class="fn">Factor 06</div>
+      <div class="fstat">48%</div>
+      <div class="ftitle">$9.99 activates the flywheel</div>
+      <ul class="fbullets">
+        <li>206 of 425 listings priced $9–$11</li>
+        <li>Both Best Seller badges are at $9.99</li>
+        <li>Books above $14 average 0–7 reviews each</li>
+        <li>Sits inside the impulse-buy threshold</li>
+      </ul>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- TRENDS -->
+<section class="sec" id="s-trends">
+<div class="wrap">
+  <div class="sec-lbl"><div class="sec-num">Section 03</div><div class="sec-line"></div><div class="sec-tag">Market Shifts</div></div>
+  <h2>Historical vs. Current Trends</h2>
+  <div class="divider"></div>
+  <p class="sec-intro">The market has rotated from complexity-as-value to accessibility-as-value. These are structural shifts in buyer psychology, not aesthetic preferences.</p>
+  <div class="tsplit fade-up">
+    <div class="tc then">
+      <div class="tera">Then — 2013 to 2020</div>
+      <div class="thead2">Ultra-complex,<br>detail-maximalist</div>
+      <ul class="tlist">
+        <li>Hyper-intricate mandalas — hundreds of subdivisions</li>
+        <li>Johanna Basford-style dense botanical art</li>
+        <li>Difficulty equalled sophistication</li>
+        <li>Fine-tipped colored pencils were the assumed tool</li>
+        <li>Grayscale and photorealistic designs dominated</li>
+        <li>Low competition — any book generated sales</li>
+        <li>No identity framing needed in titles</li>
+      </ul>
+    </div>
+    <div class="tc now">
+      <div class="tera">Now — 2023 to 2025</div>
+      <div class="thead2">Bold, cozy,<br>therapeutically simple</div>
+      <ul class="tlist">
+        <li>Large fills, thick outlines, fewer elements per page</li>
+        <li>"Bold and Easy" is the primary commercial signal</li>
+        <li>Accessibility is the new sophistication</li>
+        <li>Alcohol markers and brush pens are the assumed tool</li>
+        <li>Self-love, soft girl, hygge aesthetics dominate</li>
+        <li>Identity and emotional framing are non-optional</li>
+        <li>Seasonal variants create repeat-purchase cycles</li>
+      </ul>
+    </div>
+  </div>
+  <h3 style="font-family:'Playfair Display',serif;font-size:17px;font-weight:600;color:var(--ink);margin-bottom:12px">Keyword Frequency — All 425 Titles</h3>
+  <div class="kw-bars fade-up" id="kwbars"></div>
+</div>
+</section>
+
+<!-- MARKET GAP LOGIC -->
+<section class="sec" id="s-gap">
+<div class="wrap">
+  <div class="sec-lbl"><div class="sec-num">Section 04</div><div class="sec-line"></div><div class="sec-tag">Market Gap Logic</div></div>
+  <h2>Where the Gaps Are and Why</h2>
+  <div class="divider"></div>
+  <p class="sec-intro">A market gap exists when review demand per product is high but total product supply is low. These three signals identify exploitable whitespace in the current data.</p>
+
+  <div class="gap-hero fade-up">
+    <div class="gap-tag">Gap Formula</div>
+    <div class="gap-title">High Average Reviews + Low Product Count = Exploitable Whitespace</div>
+    <div class="gap-desc">The dataset contains categories with strong per-product review performance but only 2–8 titles competing. These are demand signals without adequate supply — the clearest indicator of a publishable gap.</div>
+    <div class="gap-formula">
+      <div class="gap-pill"><div class="gap-pill-val">110</div><div class="gap-pill-lbl">Avg reviews — Swear Word (6 products)</div></div>
+      <div class="gap-op">+</div>
+      <div class="gap-pill"><div class="gap-pill-val">76</div><div class="gap-pill-lbl">Avg reviews — Manifestation (6 products)</div></div>
+      <div class="gap-op">+</div>
+      <div class="gap-pill"><div class="gap-pill-val">46</div><div class="gap-pill-lbl">Avg reviews — Alcohol Marker (2 products)</div></div>
+      <div class="gap-op">=</div>
+      <div class="gap-pill"><div class="gap-pill-val" style="color:var(--gap-dk)">Gap</div><div class="gap-pill-lbl">Demand with no quality supply</div></div>
+    </div>
+  </div>
+
+  <div class="gap-grid fade-up">
+    <div class="gap-card">
+      <div class="gap-card-stat">119</div>
+      <div class="gap-card-t">Zero-Review Listings (28.6%)</div>
+      <div class="gap-card-b">Over a quarter of all listings have never sold. They share one trait: generic titles with no audience hook and no emotional framing. The gap is not the market — the gap is their positioning.</div>
+    </div>
+    <div class="gap-card">
+      <div class="gap-card-stat">$14+</div>
+      <div class="gap-card-t">Premium Price Failure Pattern</div>
+      <div class="gap-card-b">13 listings priced $14–$30 average only 2.2 reviews each. The gap is not at premium pricing — it is at premium pricing without prior review proof. Sequence matters.</div>
+    </div>
+    <div class="gap-card">
+      <div class="gap-card-stat">3.6★</div>
+      <div class="gap-card-t">Quality Execution Gap</div>
+      <div class="gap-card-b">The one alcohol marker book has 84 reviews and a 3.6-star rating from bleed-through complaints. Demand exists; quality has not been delivered. First publisher to solve paper quality owns this segment.</div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- NICHES -->
+<section class="sec" id="s-niches">
+<div class="wrap">
+  <div class="sec-lbl"><div class="sec-num">Section 05</div><div class="sec-line"></div><div class="sec-tag">Underserved Niches</div></div>
+  <h2>10 Underserved Niches</h2>
+  <div class="divider"></div>
+  <p class="sec-intro">Identified by low product count, above-average per-product review performance, or an unresolved quality gap. Each includes audience profile and backend keywords.</p>
+  <div class="niches-l fade-up" id="niches-l"></div>
+</div>
+</section>
+
+<!-- KEYWORD SECTION -->
+<section class="sec" id="s-kw">
+<div class="wrap">
+  <div class="sec-lbl"><div class="sec-num">Section 06</div><div class="sec-line"></div><div class="sec-tag">Backend Keywords</div></div>
+  <h2>Keywords by Niche</h2>
+  <div class="divider"></div>
+  <p class="sec-intro">Five high-intent, long-tail backend keyword phrases for each of the 10 underserved niches. Use these in Amazon backend search fields, not in the title or subtitle.</p>
+  <div class="niche-kw-grid fade-up" id="niche-kw-grid"></div>
+</div>
+</section>
+
+<!-- 3-DAY LAUNCH PLAN -->
+<section class="sec" id="s-launch">
+<div class="wrap">
+  <div class="sec-lbl"><div class="sec-num">Section 07</div><div class="sec-line"></div><div class="sec-tag">Launch Plan</div></div>
+  <h2>3-Day KDP Launch Framework</h2>
+  <div class="divider"></div>
+  <p class="sec-intro">A repeatable pre- to post-launch sequence built around the patterns in this dataset. Assumes book is production-ready before day one.</p>
+  <div class="launch-g fade-up">
+    <div class="lday d1">
+      <div class="lday-h">
+        <div class="lday-num">Day One</div>
+        <div class="lday-title">Pre-Launch Setup</div>
+        <div class="lday-sub">Before the listing goes live</div>
+      </div>
+      <div class="lday-body">
+        <div class="ltask"><div class="ltick"></div><div class="ltask-t">Set launch price at $7.99 — below the $9.99 anchor to accelerate early review velocity</div></div>
+        <div class="ltask"><div class="ltick"></div><div class="ltask-t">Write a title with an explicit audience hook and an emotional outcome — not a feature list</div></div>
+        <div class="ltask"><div class="ltick"></div><div class="ltask-t">Load all 7 backend keyword slots using the long-tail phrases from Section 06</div></div>
+        <div class="ltask"><div class="ltick"></div><div class="ltask-t">Enroll in KDP Select for the first 90 days — enables Kindle Unlimited visibility and promotions</div></div>
+        <div class="ltask"><div class="ltick"></div><div class="ltask-t">Set the category to the most specific available — not "Books &gt; Arts" but the sub-subcategory</div></div>
+        <div class="ltask"><div class="ltick"></div><div class="ltask-t">Request 5 ARC (Advance Review Copy) readers from your existing audience or Facebook groups</div></div>
+      </div>
+    </div>
+    <div class="lday d2">
+      <div class="lday-h">
+        <div class="lday-num">Day Two</div>
+        <div class="lday-title">Launch Day Activation</div>
+        <div class="lday-sub">First 24 hours live on Amazon</div>
+      </div>
+      <div class="lday-body">
+        <div class="ltask"><div class="ltick"></div><div class="ltask-t">Run a 1-day Free Promotion (KDP Select) to push into the "Hot New Releases" category rank</div></div>
+        <div class="ltask"><div class="ltick"></div><div class="ltask-t">Post the free download link to 3–5 relevant Facebook groups (coloring, self-care, KDP communities)</div></div>
+        <div class="ltask"><div class="ltick"></div><div class="ltask-t">Share a completed page photo on Pinterest and Instagram with niche-specific hashtags</div></div>
+        <div class="ltask"><div class="ltick"></div><div class="ltask-t">Send an email to your list with a direct link — even 10 purchases in hour 1 moves BSR significantly</div></div>
+        <div class="ltask"><div class="ltick"></div><div class="ltask-t">Activate a low-budget Sponsored Products ad ($3–$5/day) targeting the top 2 ranked competitors</div></div>
+        <div class="ltask"><div class="ltick"></div><div class="ltask-t">Screenshot your BSR every 4 hours — capture early ranking for social proof</div></div>
+      </div>
+    </div>
+    <div class="lday d3">
+      <div class="lday-h">
+        <div class="lday-num">Day Three</div>
+        <div class="lday-title">Stabilise and Scale</div>
+        <div class="lday-sub">Post-launch optimisation</div>
+      </div>
+      <div class="lday-body">
+        <div class="ltask"><div class="ltick"></div><div class="ltask-t">Raise price to $9.99 once you have 5+ reviews — best royalty-per-sale ratio at this tier</div></div>
+        <div class="ltask"><div class="ltick"></div><div class="ltask-t">Review your AMS ad search term report — pause irrelevant keywords, increase bids on converters</div></div>
+        <div class="ltask"><div class="ltick"></div><div class="ltask-t">Follow up with ARC readers directly — a polite reminder generates 2–3x the response rate</div></div>
+        <div class="ltask"><div class="ltick"></div><div class="ltask-t">Add the listing to a series page if this is book 1 — start the cross-sell loop now</div></div>
+        <div class="ltask"><div class="ltick"></div><div class="ltask-t">Begin outlining Book 2 — the strongest review-driver for Book 1 is often Book 2 going live</div></div>
+        <div class="ltask"><div class="ltick"></div><div class="ltask-t">Track weekly BSR and reviews for 30 days — 1–2 new reviews per week signals organic traction</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- MISTAKES -->
+<section class="sec" id="s-mistakes">
+<div class="wrap">
+  <div class="sec-lbl"><div class="sec-num">Section 08</div><div class="sec-line"></div><div class="sec-tag">Publisher Mistakes</div></div>
+  <h2>5 Common Publisher Oversteps</h2>
+  <div class="divider"></div>
+  <p class="sec-intro">Each mistake is evidenced by anomalies directly observable in the 425-listing dataset — not theoretical risks.</p>
+  <div class="merr-l fade-up" id="merr-l"></div>
+  <div class="charts-g">
+    <div class="cc"><div class="ct">Rating Distribution</div><div class="cs">305 rated products — clustering near 4.5–5.0</div><div class="cw"><canvas id="ratingChart" role="img" aria-label="Rating distribution"></canvas></div></div>
+    <div class="cc"><div class="ct">Overpriced Listings vs. Reviews</div><div class="cs">All $14+ launches — review counts near zero</div><div class="cw"><canvas id="ovChart" role="img" aria-label="Overpriced listings"></canvas></div></div>
+  </div>
+</div>
+</section>
+
+<!-- FOOTER -->
+<footer class="foot">
+  <div class="foot-brand">KDP<span>.</span>Report</div>
+  <div class="foot-meta">425 listings — Amazon search scrape — May 2026</div>
+</footer>
+
+<script>
+// ── DATA ──────────────────────────────────────────────
+const TOP10=[
+  {r:1,rev:10200,rat:4.7,p:7.99,bs:false,t:"An Inspirational Colouring Book For Everyone: Be Fearless In The Pursuit Of What Sets Your Soul On Fire"},
+  {r:2,rev:7800,rat:4.8,p:9.99,bs:true,t:"Stress Relief: Coloring Book for Adults and Kids, Bold and Easy, Simple and Big Designs for Relaxation Featuring Animals, Landscape, Flowers, Patterns"},
+  {r:3,rev:1800,rat:4.8,p:5.99,bs:false,t:"Coloring Book for Adults Relaxation: Bold and Easy"},
+  {r:4,rev:1400,rat:4.6,p:9.99,bs:false,t:"Hey You're So Great: Inspirational and Motivational Coloring Book. Positive Quotes and Stress Relief for Adults."},
+  {r:5,rev:725,rat:4.5,p:9.99,bs:false,t:"Mindfulness Coloring Book: A Relaxing Coloring Therapy Gift Book for Adults — Stress Relieving Nature Art Designs"},
+  {r:6,rev:589,rat:4.8,p:9.99,bs:true,t:"Cozy Girl Homebody: Cute Coloring Book for Adults and Teens, Bold & Easy Designs — Simple Illustrations for Self-Care"},
+  {r:7,rev:441,rat:4.8,p:11.11,bs:false,t:"I Am: Manifestation & Self Care Coloring Book for Black Women — Positive Affirmations to Reprogram Your Mind"},
+  {r:8,rev:413,rat:4.8,p:9.99,bs:false,t:"Girl's Day: Self-Love Coloring Book for Adults & Teens Featuring Activities in Everyday Life"},
+  {r:9,rev:284,rat:4.5,p:9.99,bs:false,t:"Landscape Coloring Book For Adults: Large Print Nature Colouring Book — 50 Stress Relieving Designs"},
+  {r:10,rev:260,rat:4.4,p:3.99,bs:false,t:"Swear Word Coloring Book: Cuss Word Coloring Book For Adults — Motivational Mandala Pattern For Stress Relief"},
+];
+
+const NICHES=[
+  {n:"01",opp:"v",name:"Monochrome Single-Color",concept:["Only 12 products, avg 10 reviews","Removes color-choice decision fatigue","Growing aesthetic trend on TikTok","Supply is negligible vs. demand"],audience:["Adults 25–45 wanting a 10-min ritual","Beginners afraid of wrong color choices","Single-tool art practice community"],kws:["one color coloring book adults stress relief","monochrome coloring book bold easy mindfulness","single marker coloring pages women relaxation","one color self care coloring book teens adults","monochrome bold outlines coloring book anxiety"]},
+  {n:"02",opp:"v",name:"Swear Word Themed Subsets",concept:["6 titles averaging 110 reviews — highest per-product avg","Themed variants (mom life, work, gym) are absent","Humor format has above-avg social sharing","Strong gifting conversion year-round"],audience:["Women 28–48 with sarcastic communication style","Gift buyers for birthdays and holidays","Dark-humor self-care community"],kws:["funny swear word coloring book adults women","mom life cuss word coloring book humor","work stress swear coloring pages adults gift","breakup recovery funny adult coloring profanity","motivational swear words coloring women anxiety"]},
+  {n:"03",opp:"h",name:"Pocket & Travel-Size",concept:["16 products averaging 29 reviews","Top performers reach 76–81 reviews","Clear use case: commute, lunch break, waiting rooms","Supply insufficient for a high-frequency format"],audience:["Working adults 25–50 who commute","Caregivers in clinical waiting environments","Buyers who abandoned full-size books"],kws:["pocket coloring book adults purse size anxiety","mini adult coloring book travel size stress relief","portable coloring pages small adults relaxation","compact coloring book lunch break mindfulness","small coloring book on the go women bold easy"]},
+  {n:"04",opp:"h",name:"Geographic & Cultural Identity",concept:["Only 8 geographic titles, avg 22 reviews","Every U.S. state and cultural aesthetic is open","Regional books function as souvenirs","High-intent gift search traffic"],audience:["Local pride buyers and expats","Gift buyers for people who have relocated","Military families, regional enthusiasts"],kws:["texas coloring book adults bold easy state pride","japan aesthetic coloring book adults mindfulness","pacific northwest nature coloring book adults","appalachian coloring book adults landscapes","scandinavian hygge coloring book women self care"]},
+  {n:"05",opp:"h",name:"Seasonal Cozy Variants",concept:["Only 2 listings use 'seasonal'","Spooky Chill earned 70 reviews — proof of demand","No publisher has a full Bold & Easy seasonal series","Each season = a separate repeat purchase"],audience:["Existing cozy coloring buyers","Gift buyers around holidays","Buyers seeking themed year-round collections"],kws:["cozy fall autumn coloring book adults bold easy","halloween self care coloring book women teens","christmas cozy coloring book adults relaxation","valentines self love coloring book women simple","spring bold easy coloring book adults floral"]},
+  {n:"06",opp:"h",name:"Night Edition — Dark Background",concept:["Only 3 products in this format","Visually distinct thumbnail in white-page grids","Optimised for gel pens and metallic markers","Buyers photograph and share — organic traffic built-in"],audience:["Experienced colorists 20–40 with gel pen sets","TikTok and Instagram art community","Buyers who photograph completed pages"],kws:["black background coloring book adults gel pens","midnight coloring book dark pages relaxation","neon coloring book black paper gel pen art","dark aesthetic coloring book adults metallic","coloring book black pages gel pens women teens"]},
+  {n:"07",opp:"m",name:"Whimsical Interior Spaces",concept:["Fairy House Interiors: 186 reviews","Fairy Rooms: 51 reviews","Architecturally distinct from all other categories","Strong Pinterest sharing behavior"],audience:["Fantasy and cottagecore enthusiasts 16–40","D&D and tabletop gaming community","Parents for shared coloring sessions"],kws:["fairy house interior coloring book adults","whimsical room coloring book magical spaces","cottage interior coloring pages women teens","fantasy home coloring book bold easy adults","enchanted library coloring book teens relaxation"]},
+  {n:"08",opp:"v",name:"Alcohol Marker-Optimized",concept:["Only 1 explicit title — 84 reviews at 3.6 stars","3.6-star rating is entirely bleed-through complaints","Demand exists; quality has not been delivered","First publisher to solve paper quality owns the niche"],audience:["Colorists 20–40 with Copic / Ohuhu marker sets","YouTube and Instagram art tutorial followers","Among the least price-sensitive buyers in category"],kws:["alcohol marker coloring book adults thick paper","ohuhu copic coloring pages bold outlines single sided","coloring book designed alcohol markers professional","brush pen coloring book adults bold thick lines","professional coloring book adults markers bleed proof"]},
+  {n:"09",opp:"h",name:"Manifestation & Law of Attraction",concept:["6 titles averaging 76 reviews — 2nd highest per-product avg","Proven for Black Women audience, absent for general market","Combines coloring with scripting rituals","Above-average willingness to pay"],audience:["Women 22–45 in manifestation and journaling practices","369-method and 'that girl' TikTok community","Spiritual wellness buyers"],kws:["manifestation coloring book adults affirmations women","law of attraction coloring pages adults mindfulness","369 method coloring journal book scripting","abundance mindset coloring book women self love","scripting manifestation coloring positive affirmations"]},
+  {n:"10",opp:"m",name:"Large Print for Seniors",concept:["25 products averaging 40 reviews","Existing supply is regular books with larger images","No OT-informed design: one design per page, high contrast","Senior-relevant themes are almost absent"],audience:["Adults 60+, caregivers buying gifts for parents","Occupational therapists sourcing patient activities","Senior living activity coordinators"],kws:["large print coloring book seniors easy simple","big simple coloring book elderly adults relaxation","easy coloring book seniors dementia activity","large print adult coloring vision impaired simple","senior activity coloring book large bold lines"]},
+];
+
+const MISTAKES=[
+  {n:"1",t:"Launching Premium Pricing Without Reviews",buls:["13 listings priced $14–$30 average only 2.2 reviews each","Premium pricing requires social proof to convert","Correct sequence: launch at $7.99–$9.99, reach 25 reviews, then test price increases"],data:"13 overpriced listings — avg 2.2 reviews each"},
+  {n:"2",t:"Publishing Without an Audience Hook",buls:["119 products have zero reviews — 28.6% of the dataset","Titles describe content rather than the buyer","'Adult Coloring Book' is interchangeable with any other listing — Amazon cannot match it to buyer intent"],data:"119 zero-review listings — 28.6% of dataset"},
+  {n:"3",t:"No Series Plan at Launch",buls:["29% of products are in a named series and dominate reviews","Standalone books have no cross-promotion, no stacking","Start with a 3-book series plan before publishing book 1"],data:"125 of 425 in named series — capturing compounding traffic"},
+  {n:"4",t:"Sacrificing Quality for a Lower Price",buls:["The one alcohol marker book: 84 reviews, 3.6 stars","All low ratings from bleed-through — a paper spec decision","At 84 reviews, a 3.6-star book is algorithmically unrecoverable"],data:"84 reviews, 3.6 stars — paper quality failure"},
+  {n:"5",t:"Desktop-Optimised Title on a Mobile Market",buls:["Pipe-separated subtitles read as inexperience at 150px thumbnail scale","Top 2 titles use under 12 words — both at 4.8 stars","Features belong in the description; the title delivers the identity promise"],data:"Top 2 titles under 12 words — 7,800+ and 10,200 reviews respectively"},
+];
+
+// ── TOP 10 TABLE ──────────────────────────────────────
+const tbody=document.getElementById('t10body');
+const rcs=['rb1','rb2','rb3','rbr','rbr','rbr','rbr','rbr','rbr','rbr'];
+TOP10.forEach((d,i)=>{
+  const tr=document.createElement('tr');
+  if(d.bs) tr.classList.add('hl-row');
+  tr.innerHTML=`<td class="rc"><div class="rb ${rcs[i]}">${d.r}</div></td>
+    <td style="max-width:360px"><div class="tm">${d.t}${d.bs?'<span class="bsbadge">Best Seller</span>':''}</div></td>
+    <td class="td-r"><span class="rnum">${d.rev.toLocaleString()}</span></td>
+    <td class="td-r">&#9733; ${d.rat}</td>
+    <td class="td-r"><span class="pnum">$${d.p.toFixed(2)}</span></td>`;
+  tbody.appendChild(tr);
+});
+
+// ── KW BARS ───────────────────────────────────────────
+const KWS=[['Relaxation',134,1],['Stress Relief',103,1],['Bold & Easy',87,1],['Self-Love',84,0],['Affirmation',81,0],['Self-Care',77,0],['Women',72,0],['Cozy',69,0],['Mindfulness',59,0],['Quote',56,0],['Inspirational',54,0],['Pattern',41,0],['Anxiety',38,0],['Black Women',37,0],['Mandala',27,0],['Swear Word',6,1]];
+const kwc=document.getElementById('kwbars');
+KWS.forEach(([l,c,h])=>{
+  const p=(c/134*100).toFixed(1);
+  kwc.innerHTML+=`<div class="kw-row"><div class="kw-lbl">${l}</div><div class="kw-bw"><div class="kw-b${h?' hl':''}" style="width:${p}%"></div></div><div class="kw-cnt">${c}</div></div>`;
+});
+
+// ── NICHES ────────────────────────────────────────────
+const nc=document.getElementById('niches-l');
+const oppCls={v:'opp-v',h:'opp-h',m:'opp-m'};
+const oppLbl={v:'Very High',h:'High',m:'Medium'};
+NICHES.forEach(n=>{
+  const conLi=n.concept.map(x=>`<li>${x}</li>`).join('');
+  const audLi=n.audience.map(x=>`<li>${x}</li>`).join('');
+  const kwLi=n.kws.map(k=>`<div class="kwchip">${k}</div>`).join('');
+  nc.innerHTML+=`<div class="ncard">
+    <div class="nhead">
+      <div><div class="nnb">Niche ${n.n}</div><div class="nname">${n.name}</div></div>
+      <span class="opp ${oppCls[n.opp]}">${oppLbl[n.opp]} Opportunity</span>
+    </div>
+    <div class="nbody">
+      <div class="nsec"><div class="nsl">Core Concept</div><ul class="nbul">${conLi}</ul></div>
+      <div class="nsec"><div class="nsl">Target Audience</div><ul class="nbul">${audLi}</ul></div>
+      <div class="nsec"><div class="nsl">Backend Keywords</div>${kwLi}</div>
+    </div>
+  </div>`;
+});
+
+// ── NICHE KEYWORD SECTION ─────────────────────────────
+const nkc=document.getElementById('niche-kw-grid');
+NICHES.forEach(n=>{
+  const kwLi=n.kws.map(k=>`<li>${k}</li>`).join('');
+  nkc.innerHTML+=`<div class="nkw-card">
+    <div class="nkw-num">Niche ${n.n}</div>
+    <div class="nkw-name">${n.name}</div>
+    <ul class="nkw-list">${kwLi}</ul>
+  </div>`;
+});
+
+// ── MISTAKES ──────────────────────────────────────────
+const mc2=document.getElementById('merr-l');
+MISTAKES.forEach(m=>{
+  const li=m.buls.map(b=>`<li>${b}</li>`).join('');
+  mc2.innerHTML+=`<div class="merr">
+    <div class="mn">${m.n}</div>
+    <div class="mc">
+      <div class="mt">${m.t}</div>
+      <ul class="mbul">${li}</ul>
+      <div class="mdata">${m.data}</div>
+    </div>
+  </div>`;
+});
+
+// ── CHARTS ────────────────────────────────────────────
+const T='#C4714A',TL='#F0D5C5',SAND='#E8E0D0',GR='#E8E0D0',IF='#9C9589';
+const gOpt={color:'#E8E0D0'},tOpt={color:'#9C9589',font:{family:"'DM Sans',sans-serif",size:11}};
+const base={responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}}};
+
+new Chart(document.getElementById('priceChart'),{type:'bar',data:{labels:['<$5','$5–$8','$8–$11','$11–$15','$15+'],datasets:[{data:[26,124,227,30,9],backgroundColor:[TL,TL,T,TL,TL],borderRadius:4}]},options:{...base,scales:{x:{grid:{display:false},ticks:tOpt},y:{grid:gOpt,ticks:tOpt,beginAtZero:true}}}});
+
+new Chart(document.getElementById('reviewChart'),{type:'bar',data:{labels:['0','1–10','11–50','51–200','201–1k','1k+'],datasets:[{data:[119,164,83,33,13,4],backgroundColor:[SAND,TL,TL,'#8FAF8A',T,T],borderRadius:4}]},options:{...base,scales:{x:{grid:{display:false},ticks:tOpt},y:{grid:gOpt,ticks:tOpt,beginAtZero:true}}}});
+
+new Chart(document.getElementById('ratingChart'),{type:'bar',data:{labels:['1–2','2–3','3–4','4–4.5','4.5–4.8','4.8–5'],datasets:[{data:[1,1,21,66,81,127],backgroundColor:[SAND,SAND,TL,TL,'#8FAF8A',T],borderRadius:4}]},options:{...base,scales:{x:{grid:{display:false},ticks:tOpt},y:{grid:gOpt,ticks:tOpt,beginAtZero:true}}}});
+
+new Chart(document.getElementById('ovChart'),{type:'bar',data:{labels:['$14.99','$20.00','$14.95','$14.99','$29.99','$16.14','$16.89','$14.99','$18.99','$19.99'],datasets:[{data:[0,1,1,4,7,18,3,3,0,0],backgroundColor:TL,borderRadius:4}]},options:{...base,scales:{x:{grid:{display:false},ticks:{...tOpt,maxRotation:45}},y:{grid:gOpt,ticks:tOpt,beginAtZero:true,title:{display:true,text:'Reviews',color:IF,font:{size:11}}}}}});
+
+// ── SCROLL ANIMATION ──────────────────────────────────
+const obs=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('vis')}),{threshold:.07});
+document.querySelectorAll('.fade-up').forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>
